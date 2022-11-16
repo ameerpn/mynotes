@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "277457472198",
+    "project_id": "mynotes-af887",
+    "storage_bucket": "mynotes-af887.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:277457472198:android:bf7fd6ae45b28a12aea5c7",
+        "android_client_info": {
+          "package_name": "com.biga.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "277457472198-osthk12tkhmrts6r3ta63tv09f1tg6ov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX6D53VFqBz4FVJbgHH-5wDHqUGVFDIVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "277457472198-osthk12tkhmrts6r3ta63tv09f1tg6ov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
