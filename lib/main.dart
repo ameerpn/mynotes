@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/views/login_page.dart';
 import 'package:mynotes/views/notes_main_page.dart';
 import 'package:mynotes/views/register_page.dart';
@@ -25,10 +26,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/login': (context) => LoginView(),
-        '/register': (context) => RegisterView(),
-        '/verify-email': (context) => VerifyEmailView(),
-        '/notes': (context) => NotesView(),
+        loginRoute: (context) => LoginView(),
+        registerRoute: (context) => RegisterView(),
+        verifyEmailRoute: (context) => VerifyEmailView(),
+        notesRoute: (context) => NotesView(),
       },
       home: const HomePage(),
     );
@@ -52,7 +53,7 @@ class HomePage extends StatelessWidget {
                 if (user.emailVerified){
                   devtools.log("Email verified");
                 }else {
-                  print(user);
+                  devtools.log(user.toString());
                   return const VerifyEmailView();
                 }
               }else {

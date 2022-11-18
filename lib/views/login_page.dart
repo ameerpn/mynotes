@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/firebase_options.dart';
 import 'dart:developer' as devtools show log;
 
@@ -74,17 +75,17 @@ class _LoginViewState extends State<LoginView> {
                             .signInWithEmailAndPassword(
                                 email: email, password: password);
                         devtools.log(userCredential.user.toString());
-                        if (userCredential ! = null) {
+                        if (userCredential != null) {
                           if (userCredential.user?.emailVerified == false) {
                             devtools.log("email verification");
                             Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/verify-email',
+                              verifyEmailRoute,
                                   (route) => false,
                             );
                           }else {
                             devtools.log("go to notes");
                             Navigator.of(context).pushNamedAndRemoveUntil(
-                              '/notes',
+                              notesRoute,
                               (route) => false,
                             );
                           }
@@ -105,7 +106,7 @@ class _LoginViewState extends State<LoginView> {
                   TextButton(
                     onPressed: () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
-                        '/register',
+                        registerRoute,
                         (route) => false,
                       );
                     },
