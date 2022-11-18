@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:mynotes/views/login_page.dart';
+import 'package:mynotes/views/notes_main_page.dart';
 import 'package:mynotes/views/register_page.dart';
+import 'package:mynotes/views/verify_email_page.dart';
+import 'dart:developer' as devtools show log;
 
 import 'firebase_options.dart';
 
@@ -23,7 +26,9 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/login': (context) => LoginView(),
-        '/register': (context) => RegisterView()
+        '/register': (context) => RegisterView(),
+        '/verify-email': (context) => VerifyEmailView(),
+        '/notes': (context) => NotesView(),
       },
       home: const HomePage(),
     );
@@ -42,14 +47,18 @@ class HomePage extends StatelessWidget {
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              return LoginView();
-//              final user = FirebaseAuth.instance.currentUser;
-//              print(user);
-//              if (user?.emailVerified ?? false) {
-            //              return const Text("Done!");
-            //          } else {
-            //          return const VerifyEmailView();
-            //      }
+              final user = FirebaseAuth.instance.currentUser;
+              if (user != null) {
+                if (user.emailVerified){
+                  devtools.log("Email verified");
+                }else {
+                  print(user);
+                  return const VerifyEmailView();
+                }
+              }else {
+                return const LoginView();
+              }
+              return const NotesView();
             default:
               return const Text("Loading...");
           }
