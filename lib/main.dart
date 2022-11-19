@@ -26,10 +26,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        loginRoute: (context) => LoginView(),
-        registerRoute: (context) => RegisterView(),
-        verifyEmailRoute: (context) => VerifyEmailView(),
-        notesRoute: (context) => NotesView(),
+        loginRoute: (context) => const LoginView(),
+        registerRoute: (context) => const RegisterView(),
+        verifyEmailRoute: (context) => const VerifyEmailView(),
+        notesRoute: (context) => const NotesView(),
       },
       home: const HomePage(),
     );

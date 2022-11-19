@@ -1,8 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mynotes/constants/routes.dart';
-import '../firebase_options.dart';
+import 'package:mynotes/util/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -59,20 +58,29 @@ class _RegisterViewState extends State<RegisterView> {
             final email = _email.text;
             final password = _password.text;
             try {
-              final userCredential =
-                  await FirebaseAuth.instance.createUserWithEmailAndPassword(
+              await FirebaseAuth.instance.createUserWithEmailAndPassword(
                 email: email,
                 password: password,
               );
-              print(userCredential);
+              final user = FirebaseAuth.instance.currentUser;
+              await user?.sendEmailVerification();
+              Navigator.of(context).pushNamed(verifyEmailRoute);
             } on FirebaseAuthException catch (e) {
               switch (e.code) {
+                case 'invalid-email':
+                  await showErrorDialog(
+                      context, "Invalid Email", "Enter a valid Email address");
+                  break;
                 case 'auth/email-already-in-use':
-                  print(" Email already in use");
+                  await showErrorDialog(
+                      context, "Existing Email", "Email already in use");
                   break;
                 case 'weak-password':
-                  print(" Weak Password");
+                  await showErrorDialog(context, "Weak Password",
+                      "Password must have six characters");
                   break;
+                default:
+                  await showErrorDialog(context, "Error", e.code.toString());
               }
             }
           },
@@ -80,7 +88,8 @@ class _RegisterViewState extends State<RegisterView> {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(loginRoute, (route) => false);
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil(loginRoute, (route) => false);
           },
           child: const Text("Already Registered..? Login Here..."),
         ),
