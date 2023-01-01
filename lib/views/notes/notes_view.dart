@@ -12,7 +12,9 @@ class NotesView extends StatefulWidget {
 
 class _NotesViewState extends State<NotesView> {
   late final NotesService _notesService;
+
   String get userEmail => AuthService.firebase().currentUser!.email!;
+
   @override
   void initState() {
     _notesService = NotesService();
@@ -25,6 +27,7 @@ class _NotesViewState extends State<NotesView> {
     _notesService.close();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,35 +45,53 @@ class _NotesViewState extends State<NotesView> {
                 await AuthService.firebase().logOut();
                 Navigator.of(context).pushNamedAndRemoveUntil(
                   loginRoute,
-                      (_) => false,
+                  (_) => false,
                 );
               }
             },
-            icon: const Icon(Icons.logout,
-            color: Colors.white),
+            icon: const Icon(Icons.logout, color: Colors.white),
           )
         ],
       ),
-      body: FutureBuilder(
-        future: _notesService.getOrCreateUser(email: userEmail),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return StreamBuilder(
-                stream: _notesService.allNotes,
-                builder: (context, snapshot) {
-                  switch (snapshot.connectionState) {
-                    case ConnectionState.waiting:
-                      return const Text("Waiting for All notes");
-                    default:
-                      return const CircularProgressIndicator();
-                  }
-                },
-              );
-            default:
-              return const CircularProgressIndicator();
-          }
-        },
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              minimumSize: const Size(double.infinity, 75),
+              backgroundColor: Colors.green,
+              textStyle: const TextStyle(fontSize: 24),
+            ),
+            onPressed: () {
+              Navigator.of(context).pushNamed(newNoteRoute);
+            },
+            label: const Text("Add New Note"),
+            icon: const Icon(Icons.add),
+          ),
+          FutureBuilder(
+            future: _notesService.getOrCreateUser(email: userEmail),
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.done:
+                  return StreamBuilder(
+                    stream: _notesService.allNotes,
+                    builder: (context, snapshot) {
+                      switch (snapshot.connectionState) {
+                        case ConnectionState.waiting:
+                          return const Text("Waiting for All notes");
+                        default:
+                          return const CircularProgressIndicator();
+                      }
+                    },
+                  );
+                default:
+                  return const CircularProgressIndicator();
+              }
+            },
+          ),
+        ],
       ),
     );
   }
