@@ -34,11 +34,13 @@ class _NotesViewState extends State<NotesView> {
       appBar: AppBar(
         title: const Text('Notes'),
         actions: [
-          TextButton.icon(
-            label: const Text(
-              "Logout",
-              style: TextStyle(color: Colors.white),
-            ),
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed(newNoteRoute);
+            },
+            icon: const Icon(Icons.add),
+          ),
+          IconButton(
             onPressed: () async {
               final shouldLogout = await showLogOutDialog(context);
               if (shouldLogout) {
@@ -55,21 +57,6 @@ class _NotesViewState extends State<NotesView> {
       ),
       body: Column(
         children: [
-          const SizedBox(
-            height: 10,
-          ),
-          ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size(double.infinity, 75),
-              backgroundColor: Colors.green,
-              textStyle: const TextStyle(fontSize: 24),
-            ),
-            onPressed: () {
-              Navigator.of(context).pushNamed(newNoteRoute);
-            },
-            label: const Text("Add New Note"),
-            icon: const Icon(Icons.add),
-          ),
           FutureBuilder(
             future: _notesService.getOrCreateUser(email: userEmail),
             builder: (context, snapshot) {
