@@ -61,8 +61,10 @@ class _NewNoteViewState extends State<NewNoteView> {
 
   //Saving Note upto the point
   void _saveNoteIfTextFieldIsNotEmpty() async{
+    print("Saving Note upto the point - $_note");
     final note = _note;
     final text = _textEditingController.text;
+    print("$text");
     if (note != null && text.isNotEmpty) {
       await _notesService.updateNote(note: note, text: text);
     }
