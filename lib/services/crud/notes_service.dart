@@ -212,7 +212,7 @@ class NotesService {
   Database _getDatabaseOrThrow() {
     final db = _db;
     if (db == null) {
-      throw DatabaseIsNotOpenException();
+      throw DatabaseIsNotOpen();
     } else {
       return db;
     }
@@ -221,7 +221,7 @@ class NotesService {
   Future<void> close() async {
     final db = _db;
     if (db == null) {
-      throw DatabaseIsNotOpenException();
+      throw DatabaseIsNotOpen();
     } else {
       await db.close();
       _db = null;
@@ -251,7 +251,7 @@ class NotesService {
       await db.execute(createNoteTable);
       await _cacheNotes();
     } on MissingPlatformDirectoryException {
-      throw UnableToOpenDatabaseException();
+      throw UnableToGetDocumentsDirectory();
     }
   }
 }
@@ -297,7 +297,7 @@ class DatabaseNote {
         userId = map[userIdColumn] as int,
         text = map[textColumn] as String,
         isSyncedWithCloud =
-        (map[isSyncedWithCloudColumn] as int) == 1 ? true : false;
+            (map[isSyncedWithCloudColumn] as int) == 1 ? true : false;
 
   @override
   String toString() =>

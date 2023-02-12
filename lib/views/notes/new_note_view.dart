@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/services/crud/notes_services.dart';
+import 'package:mynotes/services/crud/notes_service.dart';
 
 class NewNoteView extends StatefulWidget {
   const NewNoteView({Key? key}) : super(key: key);
@@ -12,7 +12,6 @@ class NewNoteView extends StatefulWidget {
 class _NewNoteViewState extends State<NewNoteView> {
   //To avoid re creating notes service
   DatabaseNote? _note;
-  int i = 0;
   late final NotesService _notesService;
   //Text Editing controller for tracking Text Field
   late final TextEditingController _textEditingController;
